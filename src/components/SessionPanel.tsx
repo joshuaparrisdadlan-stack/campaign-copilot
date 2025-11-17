@@ -13,6 +13,7 @@ export function SessionPanel() {
   const [suggestions, setSuggestions] = useState<NextOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sessionMode, setSessionMode] = useState<SessionMode>(loadSessionMode());
+  const [lastSaved, setLastSaved] = useState<Date>(new Date());
 
   const activeHub = activeHubId ? hubs.find(h => h.id === activeHubId) : null;
 
@@ -20,6 +21,11 @@ export function SessionPanel() {
   useEffect(() => {
     saveSessionMode(sessionMode);
   }, [sessionMode]);
+
+  // Auto-save indicator - update timestamp when content changes
+  useEffect(() => {
+    setLastSaved(new Date());
+  }, [sessionText, currentLocation]);
 
   // Auto-suggest links based on text content
   const suggestLinks = (text: string) => {
@@ -303,6 +309,11 @@ export function SessionPanel() {
           <p className="text-gray-400 text-sm">Click "Suggest Next 3 Options" to get AI-powered suggestions based on your session notes.</p>
         </div>
       )}
+
+      {/* Auto-save Indicator */}
+      <div className="mt-4 text-xs text-gray-500 text-right">
+        💾 Last saved: {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      </div>
     </div>
   );
 }
