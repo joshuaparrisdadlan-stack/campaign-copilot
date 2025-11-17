@@ -15,6 +15,7 @@ import { TacticalAdvisor } from './components/TacticalAdvisor';
 import { EncounterMode } from './components/EncounterMode';
 import { QuestWeb } from './components/QuestWeb';
 import { PresetLoader } from './components/PresetLoader';
+import { BackupIndicator } from './components/BackupIndicator';
 import { CampaignProvider } from './contexts/CampaignContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { useCampaign } from './contexts/CampaignContext';
@@ -55,14 +56,17 @@ function AppContent() {
               <h1 className="text-4xl font-bold text-gray-100 mb-2">Campaign Copilot</h1>
               <p className="text-gray-400">Your D&D 5e session assistant</p>
             </div>
-            <button
-              onClick={() => setIsHelpOpen(true)}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-400 text-sm hover:bg-gray-700 transition-colors"
-              aria-label="Show help"
-              title="Press ? for help"
-            >
-              ?
-            </button>
+            <div className="flex gap-3 items-center">
+              <BackupIndicator />
+              <button
+                onClick={() => setIsHelpOpen(true)}
+                className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-400 text-sm hover:bg-gray-700 transition-colors"
+                aria-label="Show help"
+                title="Press ? for help"
+              >
+                ?
+              </button>
+            </div>
           </header>
 
           {/* Main Layout: Four Panels */}

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { CampaignData } from '../utils/exportData';
+import { createBackup } from '../utils/backup';
 import { 
   loadQuests, saveQuests, 
   loadNPCs, saveNPCs, 
@@ -96,6 +97,25 @@ export function CampaignProvider({ children }: { children: ReactNode }) {
     setCharacterProfileState(loadCharacterProfile());
     setAllSessionEvents(loadSessionEvents());
   }, []);
+
+  // Auto-backup every 5 minutes
+  useEffect(() => {
+    const backupInterval = setInterval(() => {
+      const activeCampaignName = campaigns.find(c => c.id === activeCampaignId)?.name || 'Campaign';
+      createBackup(activeCampaignName, {
+        quests: allQuests.filter(q => q.campaignId === activeCampaignId),
+        npcs: allNPCs.filter(n => n.campaignId === activeCampaignId),
+        leads: allLeads.filter(l => l.campaignId === activeCampaignId),
+        businessIdeas: allBusinessIdeas.filter(b => b.campaignId === activeCampaignId),
+        hubs: allHubs.filter(h => h.campaignId === activeCampaignId),
+        campaigns,
+        characterProfiles: characterProfile ? [characterProfile] : [],
+        sessionEvents: allSessionEvents.filter(e => e.campaignId === activeCampaignId),
+      });
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(backupInterval);
+  }, [activeCampaignId, campaigns, allQuests, allNPCs, allLeads, allBusinessIdeas, allHubs, characterProfile, allSessionEvents]);
 
   // Filter entities by activeCampaignId
   const quests = useMemo(() => 
