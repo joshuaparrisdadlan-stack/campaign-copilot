@@ -11,6 +11,10 @@ import { CampaignSwitcher } from './components/CampaignSwitcher';
 import { SearchBar } from './components/SearchBar';
 import { HelpModal } from './components/HelpModal';
 import { LiveSessionLog } from './components/LiveSessionLog';
+import { TacticalAdvisor } from './components/TacticalAdvisor';
+import { EncounterMode } from './components/EncounterMode';
+import { QuestWeb } from './components/QuestWeb';
+import { PresetLoader } from './components/PresetLoader';
 import { CampaignProvider } from './contexts/CampaignContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { useCampaign } from './contexts/CampaignContext';
@@ -18,6 +22,7 @@ import { useCampaign } from './contexts/CampaignContext';
 function AppContent() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'tactical' | 'encounter' | 'quest-web' | 'presets'>('tactical');
   const { quests, npcs, businessIdeas } = useCampaign();
 
   // Handle Ctrl+K for search
@@ -97,6 +102,59 @@ function AppContent() {
 
             {/* Hub Dashboard - Full Width */}
             <HubDashboard />
+
+            {/* Advanced Features Tabs */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden">
+              <div className="flex border-b border-gray-700 bg-gray-750">
+                <button
+                  onClick={() => setActiveTab('tactical')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                    activeTab === 'tactical'
+                      ? 'bg-gray-800 text-blue-400 border-b-2 border-blue-500'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  🎯 Tactical Advisor
+                </button>
+                <button
+                  onClick={() => setActiveTab('encounter')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                    activeTab === 'encounter'
+                      ? 'bg-gray-800 text-red-400 border-b-2 border-red-500'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  ⚔️ Encounter Mode
+                </button>
+                <button
+                  onClick={() => setActiveTab('quest-web')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                    activeTab === 'quest-web'
+                      ? 'bg-gray-800 text-purple-400 border-b-2 border-purple-500'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  ◈ Quest Web
+                </button>
+                <button
+                  onClick={() => setActiveTab('presets')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+                    activeTab === 'presets'
+                      ? 'bg-gray-800 text-green-400 border-b-2 border-green-500'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  📦 Presets
+                </button>
+              </div>
+
+              <div className="p-6">
+                {activeTab === 'tactical' && <TacticalAdvisor />}
+                {activeTab === 'encounter' && <EncounterMode />}
+                {activeTab === 'quest-web' && <QuestWeb />}
+                {activeTab === 'presets' && <PresetLoader />}
+              </div>
+            </div>
           </main>
         </div>
       </div>
