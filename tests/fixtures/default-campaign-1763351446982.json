@@ -1,0 +1,54 @@
+{
+  "campaign": {
+    "id": "789b23c7-2fd1-4cbf-9ef7-54caae6f988e",
+    "name": "Default Campaign",
+    "description": "Migrated from pre-v0.5 data.",
+    "createdAt": 1763351420554,
+    "updatedAt": 1763351420554
+  },
+  "quests": [
+    {
+      "title": "Test",
+      "location": "t",
+      "description": "t",
+      "status": "Open",
+      "campaignId": "789b23c7-2fd1-4cbf-9ef7-54caae6f988e",
+      "id": "63088d41-f27d-4a81-9b1d-fcdafe43c6b5",
+      "createdAt": 1763351430132,
+      "updatedAt": 1763351430132
+    }
+  ],
+  "npcs": [
+    {
+      "name": "test",
+      "role": "t",
+      "location": "t",
+      "notes": "t",
+      "campaignId": "789b23c7-2fd1-4cbf-9ef7-54caae6f988e",
+      "id": "b45ccc7c-3894-412d-9108-359f01847ac5",
+      "createdAt": 1763351439812,
+      "updatedAt": 1763351439812
+    }
+  ],
+  "businessIdeas": [],
+  "sessionNotes": [],
+  "sessionEvents": [],
+  "hubs": [],
+  "leads": [],
+  "characterProfile": {
+    "id": "d0f78793-24c4-4a0d-a763-48f1a6598605",
+    "name": "Test",
+    "classAndLevel": "TEs",
+    "race": "a",
+    "background": "a",
+    "alignment": "a",
+    "summary": "a",
+    "dndBeyondUrl": "",
+    "createdAt": 1763351420486,
+    "updatedAt": 1763351435420,
+    "campaignId": "789b23c7-2fd1-4cbf-9ef7-54caae6f988e"
+  },
+  "currentLocation": "",
+  "exportDate": 1763351446981,
+  "version": "1.2"
+}
