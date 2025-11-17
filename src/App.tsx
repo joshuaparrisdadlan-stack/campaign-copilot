@@ -9,6 +9,7 @@ import { HandoffSummary } from './components/HandoffSummary';
 import { CampaignSwitcher } from './components/CampaignSwitcher';
 import { SearchBar } from './components/SearchBar';
 import { HelpModal } from './components/HelpModal';
+import { LiveSessionLog } from './components/LiveSessionLog';
 import { CampaignProvider } from './contexts/CampaignContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { useCampaign } from './contexts/CampaignContext';
@@ -87,9 +88,10 @@ function AppContent() {
             </div>
 
             {/* Timeline and Handoff Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <SessionTimeline />
               <HandoffSummary />
+              <LiveSessionLog />
             </div>
           </main>
         </div>

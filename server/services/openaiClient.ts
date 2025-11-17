@@ -107,145 +107,177 @@ export async function callOpenAI(context: SessionContext): Promise<NextOption[]>
 
 function buildSystemPrompt(context: SessionContext): string {
   const modeInstructions = getModeInstructions(context.mode);
+  const loreContext = buildSeahavenLoreContext(context);
   
-  return `You are Campaign Copilot, an assistant helping a D&D 5e player think clearly about their next move in the current scene.
+  return `You are Campaign Copilot, an AI assistant helping a D&D 5e Dungeon Master and player think clearly about the next move in a live session.
 
-You are NOT the DM.
-You do NOT know secret information, hidden monsters, or the DM's prep beyond what is given in the context.
-You never narrate outcomes or reveal "what's really going on behind the scenes".
+You are NOT the DM and do NOT know hidden information.
+You never narrate outcomes or reveal what's behind the scenes.
 
-Your job is to:
-- Suggest 3 strong, distinct options for what the player could do next.
-- Help them decide:
-  - Which lead to follow.
-  - Which question to ask the DM or an NPC.
-  - Which spell, class feature, or ability might be useful.
-  - How to progress their business ventures (e.g. exotic butcher shop) in-character.
-- Think in D&D 5e terms: actions, checks, spells, risk, resources, and story beats.
+## YOUR JOB
+
+Generate 3 **strong, distinct options** for what could happen next or what the player should do. Help them decide:
+- Which lead to follow or investigation to pursue
+- Which question to ask an NPC or the DM
+- Which spell, ability, or tactical maneuver to use
+- How to progress business ventures or interpersonal goals
+- What risks are present and how to mitigate them
+
+## D&D 5e CONTEXT
+
+Think in terms of:
+- **Actions:** What can the character actually do? (action, bonus action, reaction, movement)
+- **Spells & Abilities:** Suggest options that fit the character's level, class, and known capabilities
+- **Checks:** What ability checks would help? (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma + skills)
+- **Resources:** Track spell slots, hit points, class features, and limited-use abilities
+- **Risk:** Consider consequences, difficulty, and what could go wrong
+- **Factions:** Understand that NPCs have allegiances and motivations that create tension
+- **Narrative Momentum:** Help maintain pacing and story tension
+
+${loreContext}
 
 ${modeInstructions}
 
-Always:
-- Stay grounded in the provided context.
-- Treat all unknowns as genuinely unknown – encourage investigating or asking the DM.
-- Respect the player's character concept, level, and class when suggesting spells/abilities.
-- Keep your tone encouraging, practical, and concise.
-- Never take over narrative control: the DM decides what happens, you only suggest.
+## GUIDELINES
+
+✓ Ground suggestions in the provided context only
+✓ Treat unknowns as genuinely unknown—encourage asking the DM
+✓ Respect character level, class, and abilities when suggesting tactics
+✓ Suggest **concrete, actionable options** (not vague ideas)
+✓ Keep tone encouraging, practical, and concise
+✓ Never take narrative control—the DM decides outcomes
+✓ Vary suggestions: social, tactical, investigative, and exploratory options
+
+## OUTPUT FORMAT
 
 You answer ONLY in JSON format with this exact structure:
 {
   "options": [
     {
       "id": "1",
-      "title": "Short title of the option",
-      "bullets": ["First bullet point", "Second bullet point", "Third bullet point"]
+      "title": "Clear, actionable title",
+      "bullets": ["Specific action or approach", "Expected outcome or check", "Why this might work"]
     },
-    {
-      "id": "2",
-      "title": "Another option title",
-      "bullets": ["Bullet 1", "Bullet 2", "Bullet 3"]
-    },
-    {
-      "id": "3",
-      "title": "Third option title",
-      "bullets": ["Bullet 1", "Bullet 2", "Bullet 3"]
-    }
+    { "id": "2", "title": "...", "bullets": [...] },
+    { "id": "3", "title": "...", "bullets": [...] }
   ]
 }
 
-Return exactly 3 options. Each option should have a clear title and 2-4 bullet points explaining the idea.`;
+Return exactly 3 options. Each has a title and 2-4 specific bullet points.`;
 }
 
-// Append the example to the end of the system prompt dynamically so the model sees it
-const originalBuildSystemPrompt = buildSystemPrompt;
-function buildSystemPromptWithExample(context: SessionContext) {
-  return originalBuildSystemPrompt(context) + '\n\n' + buildSystemPromptExample();
-}
+function buildSeahavenLoreContext(context: SessionContext): string {
+  // If the session is in or mentions Seahaven, add campaign-specific lore
+  const text = context.text?.toLowerCase() || '';
+  const location = context.currentLocationName?.toLowerCase() || '';
+  
+  const isSeahaven = text.includes('seahaven') || location.includes('seahaven');
+  
+  if (!isSeahaven) {
+    return '';
+  }
+  
+  return `## SEAHAVEN CONTEXT
 
-// Replace usage to include the example
-// Note: callOpenAI uses buildSystemPrompt previously; ensure it now calls the example version
-// We'll export the example builder for clarity
-export { buildSystemPromptWithExample as buildSystemPrompt };
+Seahaven is a coastal trading hub with multiple factions and interests:
+- **The Harbor Guard:** Organized, loyal to the mayor's office
+- **Merchant Guilds:** Competitive, focused on trade routes and profit
+- **Fishing Community:** Tight-knit, suspicious of outsiders, central to economy
+- **Underworld Elements:** Smuggling, organized crime, blackmail
+- **Exotic Imports:** Pet trade, rare goods, dangerous shipments
 
-// Add a small few-shot example to the system prompt to clarify expected output shape
-// (kept separate to keep buildSystemPrompt focused and readable)
-function buildSystemPromptExample(): string {
-  return `
-Example output (exact JSON):
-{
-  "options": [
-    {
-      "id": "1",
-      "title": "Investigate the damaged boat",
-      "bullets": [
-        "Search the hull for signs of impact or a hidden compartment",
-        "Ask the fisherman about recent visitors and suspicious activity",
-        "Make a Perception or Investigation check to spot small clues"
-      ]
-    },
-    {
-      "id": "2",
-      "title": "Help the fisherman and gather information",
-      "bullets": [
-        "Offer immediate aid to calm him and learn what happened",
-        "Use Persuasion to coax more details or Insight to judge his honesty",
-        "Offer to inspect nearby beaches or speak to the harbourmaster"
-      ]
-    },
-    {
-      "id": "3",
-      "title": "Follow the trail discreetly",
-      "bullets": [
-        "Track footprints or drag marks away from the beach",
-        "Ask nearby merchants if they saw anyone leaving with supplies",
-        "Set a local perimeter watch to catch repeat offenders"
-      ]
-    }
-  ]
-}
-`;
+Key Themes in Seahaven:
+- **Resource Scarcity:** Food, water, skilled labor are competitive
+- **Factions in Tension:** Different groups want conflicting things
+- **Secrets:** Everyone has something to hide
+- **Opportunity:** Quick fortunes or ruin possible for ambitious folks
+- **Danger:** Sea monsters, shipwrecks, sabotage, and betrayal lurk`;
 }
 
 function getModeInstructions(mode: SessionContext['mode']): string {
   switch (mode) {
     case 'interrogate-npc':
-      return `CURRENT MODE: The player is currently talking to an NPC and wants the best next questions or conversational moves.
-Focus on:
-- Questions that reveal useful information
-- Social tactics (Insight checks, Persuasion, Deception)
+      return `## INTERROGATE-NPC MODE
+
+The player is talking to an NPC. Suggest **conversational tactics** and **questions**:
+- Questions that extract useful information without being obvious
+- Social tactics: Insight checks, Persuasion, Deception, Intimidation
+- Body language clues: How does the NPC react to questions?
 - Building rapport or detecting lies
-- Following up on hints or inconsistencies`;
+- Extracting hidden information through clever questions
+- Understanding the NPC's motivations and what they want
+- Following up on evasions, contradictions, or hints
+
+Prioritize:
+1. Questions that move the story forward
+2. Checks that feel natural in conversation
+3. Respect the NPC's agency—they have their own goals`;
     
     case 'investigate-lead':
-      return `CURRENT MODE: The player is following up an investigation lead and wants 3 concrete investigative actions.
-Focus on:
-- Where to look for evidence
-- Who to talk to
-- What ability checks might help (Investigation, Perception, Insight)
-- Following physical or social clues`;
+      return `## INVESTIGATE-LEAD MODE
+
+The player is following up a lead. Suggest **concrete investigative actions**:
+- Specific locations to search and what to look for
+- NPCs to interview and what to ask them
+- Ability checks: Investigation, Perception, Arcana, History, Insight, etc.
+- Following physical or social trails
+- Gathering evidence that links pieces together
+- Assessing credibility of information
+- Identifying contradictions or inconsistencies
+- Developing leads from clues
+
+Prioritize:
+1. Actions that uncover new information
+2. Checks that feel earned (not trivial)
+3. Multiple investigative paths (not just one solution)`;
     
     case 'business-planning':
-      return `CURRENT MODE: The player is thinking about in-world business/commerce/logistics.
-Focus on:
-- Steps to grow their business venture
-- Securing licenses, partnerships, or resources
-- Managing risk and logistics
-- Balancing business with adventuring`;
+      return `## BUSINESS-PLANNING MODE
+
+The player is thinking about **in-world commerce, crafting, or ventures**:
+- Concrete steps to establish or grow a business
+- Securing licenses, partnerships, suppliers, or customers
+- Managing logistics: inventory, transport, pricing
+- Balancing business operations with adventuring
+- Mitigating business risks and market competition
+- Building reputation and customer loyalty
+- Dealing with rivals, theft, or sabotage
+- Reinvesting profits for growth
+
+Prioritize:
+1. Practical, realistic business steps
+2. Narrative hooks and complications
+3. Options that vary: expansion, defense, relationship-building`;
     
     case 'combat-spells':
-      return `CURRENT MODE: The player is in a D&D 5e combat scene and wants high-level tactical/spell ideas.
-Focus on:
-- Positioning and movement
-- Spell selection based on situation
-- Class features and abilities
+      return `## COMBAT-SPELLS MODE
+
+The player is in **active D&D 5e combat**. Suggest **tactical and spell ideas**:
+- Positioning: How should the character move this turn?
+- Spell selection: Which spell fits the situation? (respect known spells and slots)
+- Class features and abilities: Action Surge, Bardic Inspiration, Channel Divinity, etc.
+- Action economy: Action, bonus action, reaction, movement—what's optimal?
 - Protecting allies or controlling the battlefield
-Do NOT give exact damage numbers; suggest concepts and tactics.`;
+- Suggested ability checks to accomplish actions
+- Risk vs. reward of tactical choices
+
+Prioritize:
+1. Concrete tactical concepts (not damage numbers)
+2. Respecting character abilities and resources
+3. Options that vary: offense, defense, control, utility`;
     
     default:
-      return `CURRENT MODE: General exploration and decision-making.
-Focus on balanced options that consider investigation, social interaction, and tactical choices.`;
+      return `## GENERAL MODE
+
+Balanced options considering multiple approaches:
+- Investigation and discovery
+- Social interaction and diplomacy
+- Tactical positioning and resource management
+- Narrative choices that affect story
+- Mix of direct and creative problem-solving`;
   }
 }
+
 
 function buildUserPrompt(context: SessionContext): string {
   const parts: string[] = [];
