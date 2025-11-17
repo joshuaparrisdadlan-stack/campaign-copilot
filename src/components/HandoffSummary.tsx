@@ -57,11 +57,36 @@ ${summary.nextSessionPriorities.map((item, idx) => `${idx + 1}. ${item}`).join('
   const generateSummary = async () => {
     setIsGenerating(true);
     
-    // TODO: If useAI is true, call backend API for AI-enhanced summary
-    // For now, always use rule-based
-    if (useAI) {
-      // Future: Call /api/session-summary endpoint
-      console.log('AI summary not yet implemented, using rule-based');
+    try {
+      if (useAI) {
+        // Call backend API for AI-enhanced summary
+        const response = await fetch('/api/ai/summarize-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            events: recentEvents,
+            quests: hubQuests,
+            npcs: [],
+            activeHub
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // Parse the AI-generated summary into sections
+          const aiText = data.summary;
+          setSummary({
+            whatHappened: [aiText],
+            openThreads: hubQuests.map(q => `${q.title} (${q.status})`),
+            nextSessionPriorities: hubLeads.slice(0, 3).map(l => `Follow up: ${l.title}`),
+          });
+          setIsGenerating(false);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('AI summary error:', error);
+      // Fall through to rule-based approach
     }
     
     // Simulate a brief delay for better UX
