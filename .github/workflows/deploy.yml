@@ -1,8 +1,7 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -10,16 +9,16 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
@@ -28,20 +27,13 @@ jobs:
       - name: Build with Vite
         run: npm run build
 
-      - name: Upload build artifact for Pages
+      - name: Upload build
         uses: actions/upload-pages-artifact@v2
         with:
           path: './dist'
 
-  deploy:
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-      contents: read
-    steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Pages
         uses: actions/deploy-pages@v2
         with:
-          commit-message: 'ci(deploy): publish site from main via Actions'
+          branch: gh-pages
+          commit-message: 'Deploy Campaign Copilot build from GitHub Actions'
