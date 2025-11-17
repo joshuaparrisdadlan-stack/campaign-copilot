@@ -3,9 +3,11 @@ import type { Hub, NPC, Quest, Lead } from '../types';
 import { generateId } from '../utils/id';
 
 const now = Date.now();
+const SEAHAVEN_CAMPAIGN_ID = 'seahaven-campaign';
 
 export const seahavenHub: Hub = {
   id: 'seahaven-hub',
+  campaignId: SEAHAVEN_CAMPAIGN_ID,
   name: 'Seahaven',
   description: 'A coastal port town where sailors and travellers have been going missing, often at night, mostly from ships. The trade has suffered; the mayor is paranoid and may offer a reward for evidence. There is a storm coming; ships like the Sleek Sophia seek shelter behind rocks near the harbour.',
   tags: ['port', 'mystery', 'missing-people', 'storm'],
@@ -17,6 +19,7 @@ export const seahavenHub: Hub = {
 export const seahavenNPCs: NPC[] = [
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'John the Guard',
     role: 'Gate Guard',
     location: 'Seahaven - Main Gate',
@@ -27,6 +30,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Vitor',
     role: 'Fish/Food Stall Vendor',
     location: 'Seahaven - Market',
@@ -37,6 +41,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Quinn',
     role: 'Tavern Owner',
     location: 'Seahaven - Quinn\'s Tavern',
@@ -47,6 +52,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Saith',
     role: 'Local Contact',
     location: 'Seahaven',
@@ -57,6 +63,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Telt',
     role: 'Shipwright Cook',
     location: 'Seahaven - Shipwright Area',
@@ -67,6 +74,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Breth',
     role: 'Maple-Sap Carpenter',
     location: 'Seahaven - North of Town',
@@ -77,6 +85,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Griff',
     role: 'Fisherman/Hunter',
     location: 'Seahaven - Fishing Hole Area',
@@ -87,6 +96,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Naomi',
     role: 'Visiting Fisher',
     location: 'Seahaven',
@@ -97,6 +107,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Guard Captain',
     role: 'Guard Captain',
     location: 'Seahaven - Guard Station',
@@ -107,6 +118,7 @@ export const seahavenNPCs: NPC[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     name: 'Mayor',
     role: 'Mayor',
     location: 'Seahaven - Mayor\'s Residence',
@@ -120,6 +132,7 @@ export const seahavenNPCs: NPC[] = [
 export const seahavenLeads: Lead[] = [
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     hubId: 'seahaven-hub',
     title: 'Missing Travellers near Seahaven',
     summary: 'Sailors and travellers have been going missing, often at night, mostly from ships',
@@ -130,6 +143,7 @@ export const seahavenLeads: Lead[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     hubId: 'seahaven-hub',
     title: 'Dried/Fouled Fishing Hole North of Town',
     summary: 'The fishing hole north of Seahaven has dried up or been fouled. Griff suspects poisoning',
@@ -140,6 +154,7 @@ export const seahavenLeads: Lead[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     hubId: 'seahaven-hub',
     title: 'Alchemist vs Maple Tappers Conflict',
     summary: 'Tension between alchemists and maple tappers in the area',
@@ -150,6 +165,7 @@ export const seahavenLeads: Lead[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     hubId: 'seahaven-hub',
     title: 'Maple Tapping Job Tomorrow Morning',
     summary: 'Work opportunity: maple tapping expedition tomorrow at first light',
@@ -160,6 +176,7 @@ export const seahavenLeads: Lead[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     hubId: 'seahaven-hub',
     title: 'Storm Tonight & The Sleek Sophia at Anchor',
     summary: 'A storm is coming tonight. The ship Sleek Sophia seeks shelter behind rocks near the harbour',
@@ -173,6 +190,7 @@ export const seahavenLeads: Lead[] = [
 export const seahavenQuests: Quest[] = [
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     title: 'Investigate Missing Sailors',
     location: 'Seahaven',
     hubId: 'seahaven-hub',
@@ -183,6 +201,7 @@ export const seahavenQuests: Quest[] = [
   },
   {
     id: generateId(),
+    campaignId: SEAHAVEN_CAMPAIGN_ID,
     title: 'Investigate Fishing Hole',
     location: 'Seahaven - North',
     hubId: 'seahaven-hub',

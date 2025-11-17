@@ -1,6 +1,6 @@
 // Rule-based Next Options Engine for Campaign Copilot
 // This provides intelligent suggestions based on session context, hubs, leads, and quests
-import type { SessionContext, NextOption, Quest, Lead, NPC } from '../types';
+import type { SessionContext, NextOption } from '../types';
 import { generateId } from '../utils/id';
 
 /**

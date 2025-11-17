@@ -1,6 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useCampaign } from '../contexts/CampaignContext';
-import type { SessionEvent } from '../types';
 
 interface HandoffSummaryProps {
   eventCount?: number;
@@ -38,7 +37,7 @@ ${activeHub ? `**Hub:** ${activeHub.name}\n` : ''}**Generated:** ${new Date().to
 ${summary.whatHappened.map((item, idx) => `${idx + 1}. ${item}`).join('\n')}
 
 ## Open Threads ${activeHub ? `in ${activeHub.name}` : ''}
-${summary.openThreads.map((item, idx) => `- ${item}`).join('\n')}
+${summary.openThreads.map((item) => `- ${item}`).join('\n')}
 
 ## Top 3 Priorities for Next Session
 ${summary.nextSessionPriorities.map((item, idx) => `${idx + 1}. ${item}`).join('\n')}

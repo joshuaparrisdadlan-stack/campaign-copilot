@@ -14,7 +14,7 @@ export function NPCBusinessPanel() {
   const [selectedNpcId, setSelectedNpcId] = useState<string | null>(null);
 
   // Keyboard navigation for tabs
-  const handleTabKeyDown = (e: React.KeyboardEvent, targetTab: 'npcs' | 'business') => {
+  const handleTabKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
       const tabs: ('npcs' | 'business')[] = ['npcs', 'business'];
@@ -123,7 +123,7 @@ export function NPCBusinessPanel() {
       <div className="flex gap-2 border-b border-gray-700" role="tablist" aria-label="NPCs and Business Ideas tabs">
         <button
           onClick={() => setActiveTab('npcs')}
-          onKeyDown={(e) => handleTabKeyDown(e, 'npcs')}
+          onKeyDown={handleTabKeyDown}
           role="tab"
           aria-selected={activeTab === 'npcs'}
           aria-controls="npcs-panel"
@@ -139,7 +139,7 @@ export function NPCBusinessPanel() {
         </button>
         <button
           onClick={() => setActiveTab('business')}
-          onKeyDown={(e) => handleTabKeyDown(e, 'business')}
+          onKeyDown={handleTabKeyDown}
           role="tab"
           aria-selected={activeTab === 'business'}
           aria-controls="business-panel"

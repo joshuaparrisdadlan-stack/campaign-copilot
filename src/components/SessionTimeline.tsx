@@ -67,17 +67,17 @@ export function SessionTimeline({ maxEvents = 20 }: SessionTimelineProps) {
         }
         // Search linked quest titles
         const linkedQuests = e.linkedQuestIds?.map(id => quests.find(q => q.id === id)).filter(Boolean) || [];
-        if (linkedQuests.some(q => q.title.toLowerCase().includes(searchLower))) {
+        if (linkedQuests.some(q => q && q.title.toLowerCase().includes(searchLower))) {
           return true;
         }
         // Search linked NPC names
         const linkedNPCs = e.linkedNpcIds?.map(id => npcs.find(n => n.id === id)).filter(Boolean) || [];
-        if (linkedNPCs.some(n => n.name.toLowerCase().includes(searchLower))) {
+        if (linkedNPCs.some(n => n && n.name.toLowerCase().includes(searchLower))) {
           return true;
         }
         // Search linked lead titles
         const linkedLeads = e.linkedLeadIds?.map(id => leads.find(l => l.id === id)).filter(Boolean) || [];
-        if (linkedLeads.some(l => l.title.toLowerCase().includes(searchLower))) {
+        if (linkedLeads.some(l => l && l.title.toLowerCase().includes(searchLower))) {
           return true;
         }
         // Search hub names
@@ -716,7 +716,7 @@ export function SessionTimeline({ maxEvents = 20 }: SessionTimelineProps) {
                         <div>
                           <p className="text-xs font-medium text-gray-400 mb-1">Linked Quests:</p>
                           <div className="flex flex-wrap gap-1">
-                            {linkedQuests.map(quest => (
+                            {linkedQuests.map(quest => quest && (
                               <span key={quest.id} className="text-xs px-2 py-1 bg-purple-600 text-white rounded">
                                 {quest.title}
                               </span>
@@ -729,7 +729,7 @@ export function SessionTimeline({ maxEvents = 20 }: SessionTimelineProps) {
                         <div>
                           <p className="text-xs font-medium text-gray-400 mb-1">Linked Leads:</p>
                           <div className="flex flex-wrap gap-1">
-                            {linkedLeads.map(lead => (
+                            {linkedLeads.map(lead => lead && (
                               <span key={lead.id} className="text-xs px-2 py-1 bg-yellow-600 text-white rounded">
                                 {lead.title}
                               </span>
@@ -742,7 +742,7 @@ export function SessionTimeline({ maxEvents = 20 }: SessionTimelineProps) {
                         <div>
                           <p className="text-xs font-medium text-gray-400 mb-1">Linked NPCs:</p>
                           <div className="flex flex-wrap gap-1">
-                            {linkedNPCs.map(npc => (
+                            {linkedNPCs.map(npc => npc && (
                               <span key={npc.id} className="text-xs px-2 py-1 bg-green-600 text-white rounded">
                                 {npc.name}
                               </span>

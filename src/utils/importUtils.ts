@@ -1,5 +1,5 @@
 import type { CampaignData } from './exportData';
-import { loadCampaigns, loadQuests, loadNPCs, loadBusinessIdeas, loadHubs, loadLeads, loadSessionEvents, loadCharacterProfile } from '../storage';
+import { loadCampaigns, loadQuests, loadNPCs, loadHubs, loadLeads, loadSessionEvents, loadCharacterProfile } from '../storage';
 import { generateId } from '../utils/id';
 
 export type ValidationResult = {
@@ -50,12 +50,10 @@ export type ConflictSummary = {
 };
 
 export function computeConflicts(imported: CampaignData): ConflictSummary {
-  const existingCampaigns = loadCampaigns();
   const existingQuests = loadQuests();
   const existingNPCs = loadNPCs();
   const existingHubs = loadHubs();
   const existingLeads = loadLeads();
-  const existingEvents = loadSessionEvents();
   const existingCharacter = loadCharacterProfile();
 
   const details: string[] = [];

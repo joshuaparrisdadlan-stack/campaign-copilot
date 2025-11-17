@@ -5,11 +5,12 @@ import { generateId } from '../utils/id';
 import type { CharacterProfile } from '../types';
 
 export function CharacterPanel() {
-  const { characterProfile, setCharacterProfile } = useCampaign();
+  const { characterProfile, setCharacterProfile, activeCampaignId } = useCampaign();
   const { showSuccess, showError } = useToast();
   const [isEditing, setIsEditing] = useState(!characterProfile);
   const [formData, setFormData] = useState<CharacterProfile>({
     id: characterProfile?.id || generateId(),
+    campaignId: characterProfile?.campaignId || activeCampaignId || '',
     name: characterProfile?.name || '',
     classAndLevel: characterProfile?.classAndLevel || '',
     race: characterProfile?.race || '',
@@ -98,6 +99,7 @@ export function CharacterPanel() {
         setIsEditing(true);
         setFormData({
           id: generateId(),
+          campaignId: activeCampaignId || '',
           name: '',
           classAndLevel: '',
           race: '',
