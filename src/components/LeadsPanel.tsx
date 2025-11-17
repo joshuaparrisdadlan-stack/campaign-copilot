@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCampaign } from '../contexts/CampaignContext';
 import { useToast } from '../contexts/ToastContext';
+import { LeadBadge } from './ImportanceBadge';
 import type { Lead } from '../types';
 
 export function LeadsPanel() {
@@ -58,14 +59,6 @@ export function LeadsPanel() {
         console.error('Error deleting lead:', error);
       }
     }
-  };
-
-  const importanceColors = {
-    5: 'bg-red-600',
-    4: 'bg-orange-600',
-    3: 'bg-yellow-600',
-    2: 'bg-blue-600',
-    1: 'bg-gray-600',
   };
 
   const statusColors = {
@@ -192,6 +185,7 @@ export function LeadsPanel() {
                   </button>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
+                  <LeadBadge lead={lead} compact />
                   <button
                     onClick={() => handleToggleStatus(lead.id)}
                     className={`px-3 py-1 rounded text-sm font-medium text-white ${statusColors[lead.status]} focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors hover:opacity-90`}
@@ -199,11 +193,6 @@ export function LeadsPanel() {
                   >
                     {lead.status}
                   </button>
-                  {lead.importance && (
-                    <span className={`px-3 py-1 rounded text-sm font-medium text-white ${importanceColors[lead.importance as keyof typeof importanceColors] || 'bg-gray-600'}`}>
-                      Priority {lead.importance}
-                    </span>
-                  )}
                 </div>
               </div>
             ))

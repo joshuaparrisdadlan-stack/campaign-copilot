@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCampaign } from '../contexts/CampaignContext';
 import { useToast } from '../contexts/ToastContext';
+import { QuestBadge } from './ImportanceBadge';
 import type { Quest } from '../types';
 
 export function QuestTracker() {
@@ -422,6 +423,9 @@ export function QuestTracker() {
                 {quest.description && (
                   <p className="text-sm text-gray-300 mb-2">{quest.description}</p>
                 )}
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <QuestBadge quest={quest} />
+                </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleToggleStatus(quest.id)}

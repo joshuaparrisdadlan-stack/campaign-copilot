@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCampaign } from '../contexts/CampaignContext';
 import { useToast } from '../contexts/ToastContext';
+import { NPCBadge } from './ImportanceBadge';
 import NpcProfilePanel from './npcs/NpcProfilePanel';
 
 export function NPCBusinessPanel() {
@@ -310,6 +311,9 @@ export function NPCBusinessPanel() {
                         </div>
                         <div className="px-3 pb-2">
                           <p className="text-sm text-gray-400 mb-1"><span aria-hidden="true">📍</span> <span className="sr-only">Location:</span> {npc.location}</p>
+                          <div className="mt-2 mb-2">
+                            <NPCBadge npc={npc} compact />
+                          </div>
                           {npc.notes && <p className="text-sm text-gray-300 mt-2">{npc.notes}</p>}
                         </div>
                       </div>
