@@ -6,6 +6,7 @@ import { LeadsPanel } from './components/LeadsPanel';
 import { CharacterPanel } from './components/CharacterPanel';
 import { SessionTimeline } from './components/SessionTimeline';
 import { HandoffSummary } from './components/HandoffSummary';
+import { HubDashboard } from './components/HubDashboard';
 import { CampaignSwitcher } from './components/CampaignSwitcher';
 import { SearchBar } from './components/SearchBar';
 import { HelpModal } from './components/HelpModal';
@@ -87,12 +88,15 @@ function AppContent() {
               </div>
             </div>
 
-            {/* Timeline and Handoff Section */}
+            {/* Timeline, Handoff, and Live Log Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <SessionTimeline />
               <HandoffSummary />
               <LiveSessionLog />
             </div>
+
+            {/* Hub Dashboard - Full Width */}
+            <HubDashboard />
           </main>
         </div>
       </div>
