@@ -74,6 +74,18 @@ src/
 4. **Track Quests**: Add quests, set their status, and filter by location
 5. **Manage NPCs**: Keep notes on NPCs you meet, their roles, and locations
 6. **Business Ideas**: Track business ventures and opportunities
+7. **Export / Import**: At the end of a session you can export the active campaign to a JSON file (Downloads). Next time, use the Import button in the Campaigns panel to load that file — the app will overwrite local data and reload so you can continue where you left off.
+
+## Documentation
+
+Additional documentation is available in the [`docs/`](./docs/) folder:
+
+- [Implementation Status](./docs/IMPLEMENTATION_STATUS.md) - Current feature status
+- [Prompt Status](./docs/PROMPT_STATUS.md) - Which prompts have been implemented
+- [Quick Start Guide](./docs/QUICK_START.md) - Quick setup instructions
+- [Setup Guide](./docs/SETUP_GUIDE.md) - Detailed setup instructions
+- [Test Checklist](./docs/TEST_CHECKLIST.md) - Testing procedures
+- [Server Documentation](./docs/server-README.md) - Backend API documentation
 
 ## Future Features (Planned)
 
